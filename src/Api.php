@@ -825,6 +825,11 @@ class Api
         return json_encode(array_merge(['force_reply' => true, 'selective' => false], $params));
     }
 
+    public function InlineKeyboardButton(array $params)
+    {
+        return json_encode($params);
+    }
+
     /**
      * Processes Inbound Commands.
      *
