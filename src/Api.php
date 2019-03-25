@@ -825,7 +825,36 @@ class Api
         return json_encode(array_merge(['force_reply' => true, 'selective' => false], $params));
     }
 
+    public function answerCallbackQuery(array $params)
+    {
+        return json_encode($params);
+    }
+
+    public function answerInlineQuery(array $params)
+    {
+        return json_encode($params);
+    }
+
     public function InlineKeyboardButton(array $params)
+    {
+        return json_encode($params);
+    }
+
+
+    public function deleteMessage(array $params)
+    {
+        $response = $this->post('deleteMessage', $params);
+
+        return new Message($response->getDecodedBody());
+    }
+
+
+    public function InlineQueryResultContact(array $params)
+    {
+        return json_encode($params);
+    }
+
+    public function ReplyKeyboardRemove(array $params)
     {
         return json_encode($params);
     }
