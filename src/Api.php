@@ -363,6 +363,21 @@ class Api
         return $this->uploadFile('sendPhoto', $params);
     }
 
+    public function sendMediaGroup(array $params)
+    {
+//        $response = $this->post('sendMediaGroup', $params);
+//        return new Message($response->getDecodedBody());
+        return $this->uploadFile('sendMediaGroup', $params);
+    }
+
+    public function InputMediaPhoto(array $params)
+    {
+        $response = $this->uploadFile('InputMediaPhoto', $params);
+        //$response = $this->post('InputMediaPhoto', $params);
+
+        return new Message($response->getDecodedBody());
+    }
+
     /**
      * Send regular audio files.
      *
@@ -825,17 +840,189 @@ class Api
         return json_encode(array_merge(['force_reply' => true, 'selective' => false], $params));
     }
 
+    /**
+     * Send answers to callback queries sent from inline keyboards.
+     *
+     * he answer will be displayed to the user as a notification at the top of the chat screen or as an alert.
+     *
+     * <code>
+     * $params = [
+     *   'callback_query_id'  => '',
+     *   'text'               => '',
+     *   'show_alert'         => '',
+     * ];
+     * </code>
+     *
+     * @link https://core.telegram.org/bots/api#answerCallbackQuery
+     *
+     * @param array $params
+     *
+     * @var string  $params ['callback_query_id']
+     * @var string  $params ['text']
+     * @var bool    $params ['show_alert']
+     *
+     * @throws TelegramSDKException
+     *
+     * @return bool
+     */
     public function answerCallbackQuery(array $params)
     {
-        return json_encode($params);
+        $this->post('answerCallbackQuery', $params);
+        return true;
     }
 
-    public function answerInlineQuery(array $params)
+    /**
+     * Edit captions of messages sent by the bot or via the bot (for inline bots).
+     *
+     * <code>
+     * $params = [
+     *   'chat_id'                  => '',
+     *   'message_id'               => '',
+     *   'inline_message_id'        => '',
+     *   'caption'                  => '',
+     *   'reply_markup'             => '',
+     * ];
+     * </code>
+     *
+     * @link https://core.telegram.org/bots/api#editMessageCaption
+     *
+     * @param array    $params
+     *
+     * @var int|string $params ['chat_id']
+     * @var int        $params ['message_id']
+     * @var string     $params ['inline_message_id']
+     * @var string     $params ['caption']
+     * @var string     $params ['reply_markup']
+     *
+     * @throws TelegramSDKException
+     *
+     * @return Message|bool
+     */
+    public function editMessageCaption(array $params)
+    {
+        $response = $this->post('editMessageCaption', $params);
+        return new Message($response->getDecodedBody());
+    }
+    /**
+     * Edit only the reply markup of messages sent by the bot or via the bot (for inline bots).
+     *
+     * <code>
+     * $params = [
+     *   'chat_id'                  => '',
+     *   'message_id'               => '',
+     *   'inline_message_id'        => '',
+     *   'reply_markup'             => '',
+     * ];
+     * </code>
+     *
+     * @link https://core.telegram.org/bots/api#editMessageReplyMarkup
+     *
+     * @param array    $params
+     *
+     * @var int|string $params ['chat_id']
+     * @var int        $params ['message_id']
+     * @var string     $params ['inline_message_id']
+     * @var string     $params ['reply_markup']
+     *
+     * @throws TelegramSDKException
+     *
+     * @return Message|bool
+     */
+    public function editMessageReplyMarkup(array $params)
+    {
+        $response = $this->post('editMessageReplyMarkup', $params);
+        return new Message($response->getDecodedBody());
+    }
+    /**
+     * Use this method to send answers to an inline query.
+     *
+     * <code>
+     * $params = [
+     *   'inline_query_id'      => '',
+     *   'results'              => [],
+     *   'cache_time'           => 0,
+     *   'is_personal'          => false,
+     *   'next_offset'          => '',
+     *   'switch_pm_text'       => '',
+     *   'switch_pm_parameter'  => '',
+     * ];
+     * </code>
+     *
+     * @link https://core.telegram.org/bots/api#answerinlinequery
+     *
+     * @param array     $params
+     *
+     * @var string      $params ['inline_query_id']
+     * @var array       $params ['results']
+     * @var int|null    $params ['cache_time']
+     * @var bool|null   $params ['is_personal']
+     * @var string|null $params ['next_offset']
+     * @var string|null $params ['switch_pm_text']
+     * @var string|null $params ['switch_pm_parameter']
+     *
+     * @throws TelegramSDKException
+     *
+     * @return bool
+     */
+    public function answerInlineQuery(array $params = [])
+    {
+        if (is_array($params['results'])) {
+            $params['results'] = json_encode($params['results']);
+        }
+        $this->post('answerInlineQuery', $params);
+        return true;
+    }
+
+
+    public function InlineKeyboardButton(array $params)
     {
         return json_encode($params);
     }
 
-    public function InlineKeyboardButton(array $params)
+    /**
+     * Edit text messages sent by the bot or via the bot (for inline bots).
+     *
+     * <code>
+     * $params = [
+     *   'chat_id'                  => '',
+     *   'message_id'               => '',
+     *   'inline_message_id'        => '',
+     *   'text'                     => '',
+     *   'parse_mode'               => '',
+     *   'disable_web_page_preview' => '',
+     *   'reply_markup'             => '',
+     * ];
+     * </code>
+     *
+     * @link https://core.telegram.org/bots/api#editMessageText
+     *
+     * @param array    $params
+     *
+     * @var int|string $params ['chat_id']
+     * @var int        $params ['message_id']
+     * @var string     $params ['inline_message_id']
+     * @var string     $params ['text']
+     * @var string     $params ['parse_mode']
+     * @var bool       $params ['disable_web_page_preview']
+     * @var string     $params ['reply_markup']
+     *
+     * @throws TelegramSDKException
+     *
+     * @return Message|bool
+     */
+    public function editMessageText(array $params)
+    {
+        $response = $this->post('editMessageText', $params);
+        return new Message($response->getDecodedBody());
+    }
+
+    public function editMessageMedia(array $params)
+    {
+        $response = $this->post('editMessageMedia', $params);
+        return new Message($response->getDecodedBody());
+    }
+
+    public function InlineQueryResultPhoto(array $params)
     {
         return json_encode($params);
     }
@@ -982,15 +1169,19 @@ class Api
         if ($fileUpload) {
             $params = ['multipart' => $params];
         } else {
+            if (array_key_exists('reply_markup', $params)) {
+                $params['reply_markup'] = (string)$params['reply_markup'];
+            }
             $params = ['form_params' => $params];
         }
-
         return $this->sendRequest(
             'POST',
             $endpoint,
             $params
         );
     }
+
+
 
     /**
      * Sends a multipart/form-data request to Telegram Bot API and returns the result.
