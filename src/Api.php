@@ -569,6 +569,18 @@ class Api
         return new Message($response->getDecodedBody());
     }
 
+    public function editMessageLiveLocation(array $params){
+        $response = $this->post('editMessageLiveLocation', $params);
+
+        return new Message($response->getDecodedBody());
+    }
+
+    public function stopMessageLiveLocation(array $params){
+        $response = $this->post('stopMessageLiveLocation', $params);
+
+        return new Message($response->getDecodedBody());
+    }
+
     /**
      * Broadcast a Chat Action.
      *
